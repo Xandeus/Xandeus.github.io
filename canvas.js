@@ -1,15 +1,29 @@
 // Initial Setup
 const canvas = document.querySelector('canvas');
 const c = canvas.getContext('2d');
+var isFullScreen = false;
+fitToContainer(canvas);
 
-canvas.width = innerWidth;
-canvas.height = innerHeight-5;
-
+function fitToContainer(canvas){
+  // Make it visually fill the positioned parent
+  if(isFullScreen){
+	  canvas.width = innerWidth;
+	  canvas.height = innerHeight;
+  }
+  else{
+	 canvas.style.width ='50%';
+	// ...then set the internal size to match
+	canvas.width  = canvas.offsetWidth;
+	canvas.height = 400; 
+  }
+  
+  
+}
 
 // Variables
 let mouse = {
-	x: innerWidth / 2,
-	y: innerHeight / 2 
+	x: canvas.width / 2,
+	y: canvas.height / 2 
 };
 
 const colors = [
@@ -19,25 +33,24 @@ const colors = [
 	'#FF7F66'
 ];
 var gravity = 1;
-var friction = .9;
+var friction = .8;
 var mouseCX;
 var mouseCY;
 
 // Event Listeners
 addEventListener("mousemove", function(event) {
-	mouse.x = event.clientX;
-	mouse.y = event.clientY;
+	var rect = canvas.getBoundingClientRect();
+    mouse.x= event.clientX - rect.left;
+    mouse.y= event.clientY - rect.top;        
 });
 
 addEventListener("resize", function() {
-	canvas.width = innerWidth;	
-	canvas.height = innerHeight;
+	fitToContainer(canvas);
 
 	init();
 });
 
 addEventListener("click", function() {
-
 	mouseCX = mouse.x;
 	mouseCY = mouse.y;
 });
@@ -66,10 +79,10 @@ function Object(x, y,dx,dy,radius, color) {
 	this.color = randomColor(colors);
 
 	this.update = function() {
-		if((this.x + this.radius + this.dx) > canvas.width || (this.x - this.radius + this.dx) < 0){
+		if((this.x + this.radius + this.dx) > canvas.width || (this.x - this.radius + this.dx) <= 0){
 			this.dx = -this.dx;
 		}
-		if((this.y + this.radius + this.dy) > canvas.height){
+		if((this.y + this.radius + this.dy) > canvas.height || (this.y - this.radius + this.dy) <= 0){
 			this.dy = -this.dy * friction;
 			this.dx *= friction;
 		}
@@ -103,7 +116,7 @@ function init() {
 	for(var i = 0; i<15;i++){
 		var radius = randomIntFromRange(8,20);
 		var x = randomIntFromRange(radius,canvas.width-radius);
-		var y = randomIntFromRange(0,canvas.height-radius);
+		var y = randomIntFromRange(radius,canvas.height-radius);
 		var dx = randomIntFromRange(-2,2);
 		var dy = randomIntFromRange(-2,2);
 		balls.push(new Object(x,y,dx,dy,radius));
@@ -119,6 +132,9 @@ function animate() {
 	}
 	mouseCX = undefined;
 	mouseCY = undefined;
+	c.fillStyle = 'black';
+	c.font = "30px Arial";
+	c.fillText("Click the circles!",10,50);
 }
 
 init();

@@ -1,24 +1,53 @@
+/*
+Colors
+Crimson Sky: CF6766
+Indigo: 30415D
+Ultramarine: 031424
+Light Blue: 8EAEBD
+Grey: 474B4F
+*/
 h1 {
     color: white;
     font-family: verdana;
     font-size: 300%;
 }
-p  {
+h2 {
+	position:relative;
+	left:50%;
+	width:50%;
+	background-color: #031424;
     color: white;
-    font-family: courier;
-    font-size: 160%;
+	text-align:center;
+    font-family: verdana;
+    font-size: 300%;
+	margin:0;
+	}
+canvas {
+	position:absolute;
+	left:50%;
+	background-color: white;
+	position: relative;
+
 }
 body {
 	background-color: #30415D;
 }
-ul{
+ul.jsprograms {
+	position:absolute;
+	list-style-type: none;
+	text-align: center;
+	color:white;
+	margin:0;
+}
+
+ul.links{
 	list-style-type: none;
 	margin: 0;
 	padding: 0;
 	overflow: hidden;
 	background-color: #474B4F;
 }
-li{
+ul.links li{
 	float: left;
 }
 
@@ -35,5 +64,5 @@ li a:hover:not(.active) {
 }
 
 .active {
-    background-color: #031424;1
+    background-color: #031424;
 }
