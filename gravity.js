@@ -1,7 +1,7 @@
 // Initial Setup
 const canvas = document.querySelector('canvas');
 const c = canvas.getContext('2d');
-var isFullScreen = false;
+var isFullScreen = true;
 fitToContainer(canvas);
 
 function fitToContainer(canvas){
@@ -46,7 +46,6 @@ addEventListener("mousemove", function(event) {
 
 addEventListener("resize", function() {
 	fitToContainer(canvas);
-
 	init();
 });
 
