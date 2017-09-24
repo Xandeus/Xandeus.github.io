@@ -3,6 +3,7 @@ const canvas = document.querySelector('canvas');
 const c = canvas.getContext('2d');
 
 var isFullScreen = false;
+var randomStart = 0;
 fitToContainer(canvas);
 
 function fitToContainer(canvas){
@@ -36,15 +37,6 @@ const colors = [
 
 
 // Event Listeners
-var xPos;
-var yPos;
-var items = [
-  [1, 2],
-  [3, 4],
-  [5, 6],
-  [7,8],
-  [9,10]
-];
 addEventListener("mousemove", function(event) {
 	var rect = canvas.getBoundingClientRect();
     mouse.x = event.clientX - rect.left;
@@ -53,9 +45,7 @@ addEventListener("mousemove", function(event) {
 	var sizeY = canvas.height/3;
 	var bx = mouse.x - (mouse.x % sizeX);
 	var by = mouse.y - (mouse.y % sizeY);
-	if((bx/sizeX) >= 0 && (bx/sizeX)<3 && by/sizeY>=0 && by/sizeY <3){
-		console.log(items[(bx/sizeX)][(by/sizeY)]);
-	}
+	console.log(mouse.x + " " + mouse.y);
 });
 
 addEventListener("resize", function() {
@@ -69,8 +59,13 @@ function randomIntFromRange(min,max) {
 	return Math.floor(Math.random() * (max - min + 1) + min);
 }
 
-function randomColor(colors) {
-	return colors[Math.floor(Math.random() * colors.length)];
+function getRandomColor() {
+  var letters = '0123456789ABCDEF';
+  var color = '#';
+  for (var i = 0; i < 6; i++) {
+    color += letters[Math.floor(Math.random() * 16)];
+  }
+  return color;
 }
 
 
@@ -98,28 +93,20 @@ function Object(x, y, radius, color) {
 
 // Implementation
 function init() {
-	c.beginPath();
-	c.moveTo(canvas.width/3,0);
-	c.lineTo(canvas.width/3,canvas.height);	
-	c.stroke();
 	
-	c.moveTo(canvas.width*(2/3),0);
-	c.lineTo(canvas.width*(2/3),canvas.height);	
-	c.stroke();
 	
-	c.moveTo(0,canvas.height/3);
-	c.lineTo(canvas.width,canvas.height/3);	
-	c.stroke();
-	
-	c.moveTo(0,canvas.height*(2/3));
-	c.lineTo	(canvas.width,canvas.height*(2/3));
-	c.stroke();
 }
 // Animation Loop
 function animate() {
 	requestAnimationFrame(animate);
 	//c.clearRect(0, 0, canvas.width, canvas.height);
-	
+	c.beginPath();
+	c.lineWidth =randomIntFromRange(1,5);
+	c.moveTo(randomIntFromRange(0,canvas.width),randomIntFromRange(0,canvas.height));
+	c.lineTo(randomIntFromRange(0,canvas.width),randomIntFromRange(0,canvas.height));	
+	c.strokeStyle = getRandomColor();
+	c.stroke();
+	c.closePath();	
 }
 
 init();

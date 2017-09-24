@@ -2,6 +2,8 @@
 const canvas = document.querySelector('canvas');
 const c = canvas.getContext('2d');
 var isFullScreen = true;
+var numBalls = 15;
+var isParty = false;
 fitToContainer(canvas);
 
 function fitToContainer(canvas){
@@ -63,6 +65,14 @@ function randomIntFromRange(min,max) {
 function randomColor(colors) {
 	return colors[Math.floor(Math.random() * colors.length)];
 }
+function getRandomColor() {
+  var letters = '0123456789ABCDEF';
+  var color = '#';
+  for (var i = 0; i < 6; i++) {
+    color += letters[Math.floor(Math.random() * 16)];
+  }
+  return color;
+}
 function distance(x1,y1,x2,y2){
 	x3 = x2-x1;
 	y3 = y2-y1;
@@ -94,6 +104,9 @@ function Object(x, y,dx,dy,radius, color) {
 			this.dx += randomIntFromRange(-50,50);
 			this.dy += randomIntFromRange(-50,50);
 		}
+		if(isParty){
+			this.color = getRandomColor();
+		}
 		this.draw();
 	};
 
@@ -112,7 +125,7 @@ function Object(x, y,dx,dy,radius, color) {
 var balls;
 function init() {
 	balls = [];
-	for(var i = 0; i<15;i++){
+	for(var i = 0; i<numBalls;i++){
 		var radius = randomIntFromRange(8,20);
 		var x = randomIntFromRange(radius,canvas.width-radius);
 		var y = randomIntFromRange(radius,canvas.height-radius);
